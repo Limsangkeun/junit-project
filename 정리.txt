@@ -1,0 +1,10 @@
+테스트 진행 시 책임
+controller : 클라이언트와 테스트
+service : 기능들이 트랜잭션을 잘 타는지
+repository : DB 관련 테스트
+
+스프링 부트 실행 != 테스트 실행(테스트 환경)
+controller, service, repository 한번에 띄워서 테스트 => 통합테스트
+
+단위 테스트
+각 기능별 테스트
