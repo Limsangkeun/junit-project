@@ -10,10 +10,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book {
@@ -26,8 +29,11 @@ public class Book {
     String title;
     
     @Column(length = 20)
-    String writer;
+    String author;
 
     @Builder
-    public Book() {}
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
 }

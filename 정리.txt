@@ -8,3 +8,5 @@ controller, service, repository 한번에 띄워서 테스트 => 통합테스트
 
 단위 테스트
 각 기능별 테스트
+
+JPARepository save 는 저장 후 DB에 저장된 Entity를 리턴해줌
