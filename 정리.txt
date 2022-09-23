@@ -10,3 +10,11 @@ controller, service, repository 한번에 띄워서 테스트 => 통합테스트
 각 기능별 테스트
 
 JPARepository save 는 저장 후 DB에 저장된 Entity를 리턴해줌
+
+Junit 전체 클래스 테스트 시 테스트 메서드의 순서 보장이 안된다.
+원하면 ORDER 어노테이션을 줘야함.
+
+테스트 메서드가 하나 실행 후 종료되면 데이터가 초기화된다.(Transactional)
+데이터는 초기화되지만 auto_increment 값이 초기화 안될 수 있음.
+
+@Sql 어노테이션을 붙이면 특정 경로에 sql을 메서드 실행 전에 실행 시킬 수 있다.

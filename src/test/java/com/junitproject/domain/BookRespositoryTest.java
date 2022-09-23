@@ -1,19 +1,28 @@
 package com.junitproject.domain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
 public class BookRespositoryTest {
 
+    private final Logger log = LoggerFactory.getLogger(BookRespositoryTest.class);
+
     private final String PRE_TITLE = "사전준비 타이틀";
     private final String PRE_AUTHOR = "임상근";
+
 
     @Autowired
     private BookRepository repository;
@@ -74,6 +83,36 @@ public class BookRespositoryTest {
     }
 
     // 4. 책 수정하기
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    public void modifyBook() {
+        // given
+        Long id = 1L;
+        String title = "변경 제목";
+        String author = "변경상근";
+        
+        // when
+        Book targetBook = repository.findById(id).get();
+        targetBook.setTitle(title);
+        targetBook.setAuthor(author);
+        Book bookPS = repository.save(targetBook);
+
+        // then
+        assertTrue(Optional.of(targetBook).isPresent());
+        assertEquals(id, bookPS.getId());
+        assertEquals(title, bookPS.getTitle());
+        assertEquals(author, bookPS.getAuthor());
+    }
 
     // 5. 책 삭제하기
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    public void deleteBookById() {
+        // given
+        Long targetId = 1L;
+        // when
+        repository.deleteById(targetId);
+        // then
+        assertFalse(repository.findById(targetId).isPresent());
+    }
 }
